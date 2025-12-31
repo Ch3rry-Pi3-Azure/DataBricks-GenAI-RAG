@@ -1,0 +1,9 @@
+resource_group_name         = "rg-dbgenai-dev"
+location                    = "eastus2"
+storage_account_name        = null
+storage_account_name_prefix = "stgdbgenai"
+container_name              = "rag-data"
+is_hns_enabled              = true
+account_tier                = "Standard"
+account_replication_type    = "LRS"
+grant_current_principal_access = true

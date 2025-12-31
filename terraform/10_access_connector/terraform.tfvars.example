@@ -1,0 +1,4 @@
+resource_group_name       = "rg-dbgenai-dev"
+location                  = "eastus2"
+access_connector_name     = null
+access_connector_name_prefix = "dbac-genai"

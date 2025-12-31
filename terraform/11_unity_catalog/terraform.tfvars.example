@@ -1,0 +1,13 @@
+resource_group_name      = "rg-dbgenai-dev"
+databricks_account_id    = "00000000-0000-0000-0000-000000000000"
+workspace_id             = 1234567890123456
+metastore_name           = null
+existing_metastore_id    = null
+metastore_name_prefix    = "uc-metastore"
+metastore_region         = null
+metastore_storage_root   = null
+default_catalog_name     = "main"
+metastore_data_access_name = "metastore-access"
+storage_credential_name  = "uc-storage-credential"
+external_location_name   = "uc-external-location"
+external_location_url    = null

@@ -1,0 +1,10 @@
+resource_group_name   = "rg-dbgenai-dev"
+endpoint_name         = "rag-model-endpoint"
+served_model_name     = "rag-model"
+model_name            = "main.rag.rag_model"
+model_version         = "1"
+workload_size         = "Small"
+scale_to_zero_enabled = true
+traffic_percentage    = 100
+secret_scope_name     = "aoai-scope"
+databricks_pat_secret_name = "databricks-pat"
