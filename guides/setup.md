@@ -5,7 +5,7 @@ This project provisions Azure OpenAI, Azure Storage, Azure Key Vault, and Azure 
 ## Prerequisites
 - Azure CLI (az) installed and authenticated
 - Terraform installed (>= 1.5)
-- Python 3.10+ (or use uv and prefix commands with `uv run`)
+- Python 3.10+ (use uv and prefix commands with `uv run`)
 
 ## Terraform Setup
 Check if Terraform is installed and on PATH:
@@ -68,27 +68,27 @@ Service principal OAuth for serving:
 From the repo root or scripts folder, run:
 
 ```powershell
-python scripts\deploy.py
+uv run python scripts\deploy.py
 ```
 
 Optional flags:
 
 ```powershell
-python scripts\deploy.py --rg-only
-python scripts\deploy.py --openai-only
-python scripts\deploy.py --deployment-only
-python scripts\deploy.py --databricks-only
-python scripts\deploy.py --keyvault-only
-python scripts\deploy.py --sp-only
-python scripts\deploy.py --storage-only
-python scripts\deploy.py --access-connector-only
-python scripts\deploy.py --uc-only
-python scripts\deploy.py --sp-bootstrap
-python scripts\deploy.py --compute-only
-python scripts\deploy.py --notebooks-only
-python scripts\deploy.py --serving-only
-python scripts\deploy.py --vector-perms-only
-python scripts\deploy.py --uc-grants-only
+uv run python scripts\deploy.py --rg-only
+uv run python scripts\deploy.py --openai-only
+uv run python scripts\deploy.py --deployment-only
+uv run python scripts\deploy.py --databricks-only
+uv run python scripts\deploy.py --keyvault-only
+uv run python scripts\deploy.py --sp-only
+uv run python scripts\deploy.py --storage-only
+uv run python scripts\deploy.py --access-connector-only
+uv run python scripts\deploy.py --uc-only
+uv run python scripts\deploy.py --sp-bootstrap
+uv run python scripts\deploy.py --compute-only
+uv run python scripts\deploy.py --notebooks-only
+uv run python scripts\deploy.py --serving-only
+uv run python scripts\deploy.py --vector-perms-only
+uv run python scripts\deploy.py --uc-grants-only
 ```
 
 ## Data + Unity Catalog
@@ -107,19 +107,19 @@ python scripts\deploy.py --uc-grants-only
 $env:DATABRICKS_CLIENT_ID = "<app-id>"
 $env:DATABRICKS_CLIENT_SECRET = "<client-secret>"
 $env:DATABRICKS_TENANT_ID = "<tenant-id>"
-python scripts\deploy.py --sp-only
-python scripts\deploy.py --keyvault-only
+uv run python scripts\deploy.py --sp-only
+uv run python scripts\deploy.py --keyvault-only
 ```
 
 If you want this automated (create/rotate the SP secret + sync Key Vault):
 ```powershell
-python scripts\deploy.py --sp-bootstrap
+uv run python scripts\deploy.py --sp-bootstrap
 ```
 This uses Azure CLI to create or rotate the SP secret and writes the values into `.env`.
 
 3) Deploy the serving endpoint:
 ```powershell
-python scripts\deploy.py --serving-only
+uv run python scripts\deploy.py --serving-only
 ```
 
 4) Query the endpoint (example payload):
@@ -130,31 +130,39 @@ python scripts\deploy.py --serving-only
   ]
 }
 ```
+Notebook example (PAT from Key Vault):
+```python
+import os, requests, pandas as pd
+os.environ["DATABRICKS_TOKEN"] = dbutils.secrets.get("aoai-scope", "databricks-pat")
+url = "https://<workspace-host>/serving-endpoints/<endpoint-name>/invocations"
+payload = {"dataframe_split": pd.DataFrame([{"query": "what is diabetes?"}]).to_dict(orient="split")}
+requests.post(url, headers={"Authorization": f"Bearer {os.environ['DATABRICKS_TOKEN']}"}, json=payload).json()
+```
 
 ## Destroy Resources
 To tear down resources:
 
 ```powershell
-python scripts\destroy.py
+uv run python scripts\destroy.py
 ```
 
 Optional flags:
 
 ```powershell
-python scripts\destroy.py --rg-only
-python scripts\destroy.py --openai-only
-python scripts\destroy.py --deployment-only
-python scripts\destroy.py --databricks-only
-python scripts\destroy.py --keyvault-only
-python scripts\destroy.py --storage-only
-python scripts\destroy.py --access-connector-only
-python scripts\destroy.py --uc-only
-python scripts\destroy.py --sp-only
-python scripts\destroy.py --compute-only
-python scripts\destroy.py --notebooks-only
-python scripts\destroy.py --serving-only
-python scripts\destroy.py --vector-perms-only
-python scripts\destroy.py --uc-grants-only
+uv run python scripts\destroy.py --rg-only
+uv run python scripts\destroy.py --openai-only
+uv run python scripts\destroy.py --deployment-only
+uv run python scripts\destroy.py --databricks-only
+uv run python scripts\destroy.py --keyvault-only
+uv run python scripts\destroy.py --storage-only
+uv run python scripts\destroy.py --access-connector-only
+uv run python scripts\destroy.py --uc-only
+uv run python scripts\destroy.py --sp-only
+uv run python scripts\destroy.py --compute-only
+uv run python scripts\destroy.py --notebooks-only
+uv run python scripts\destroy.py --serving-only
+uv run python scripts\destroy.py --vector-perms-only
+uv run python scripts\destroy.py --uc-grants-only
 ```
 
 ## Notes
@@ -171,6 +179,7 @@ python scripts\destroy.py --uc-grants-only
 - If your account already has a metastore in the workspace region, set existing_metastore_id to reuse it instead of creating a new one.
 - Grant the Databricks SP USE CATALOG/SCHEMA and SELECT on the UC tables used by Vector Search, plus permissions on the Vector Search endpoint/index.
 - Create the serving endpoint only after registering a model version in MLflow/Unity Catalog.
+- The serving stack sets `MLFLOW_ENABLE_DB_SDK=true` and passes OAuth + Azure OpenAI env vars to the served container.
 - If Terraform reports an unsupported Databricks resource, run `terraform init -upgrade` in that stack to pull a newer provider.
 - The serving endpoint injects Databricks OAuth + Azure OpenAI env vars via Key Vault-backed scopes (DATABRICKS_HOST/AUTH_TYPE/CLIENT_ID/CLIENT_SECRET/TENANT_ID and AZURE_OPENAI_ENDPOINT/API_KEY/API_VERSION).
 - The notebook uses the workspace MLflow registry (`mlflow.set_registry_uri("databricks")`). Switch this if you plan to use Unity Catalog.
