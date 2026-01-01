@@ -37,8 +37,7 @@ provider "databricks" {
 
 locals {
   notebooks = {
-    "basic_chat_bot" = "${var.notebooks_dir}/BasicChatBot.ipynb"
-    "rag"            = "${var.notebooks_dir}/RAG.ipynb"
+    "rag" = "${var.notebooks_dir}/RAG.ipynb"
   }
 }
 

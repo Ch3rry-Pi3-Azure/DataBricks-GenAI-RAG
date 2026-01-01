@@ -40,7 +40,7 @@ uv run python scripts\deploy.py --keyvault-only
 ```
 `--sp-only` creates the SP at both the account and workspace level so Unity Catalog can grant permissions.
 
-6) Deploy the serving endpoint:
+6) Deploy the serving endpoint (only after the notebook has registered a model version):
 ```powershell
 uv run python scripts\deploy.py --serving-only
 ```

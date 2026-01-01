@@ -117,7 +117,7 @@ uv run python scripts\deploy.py --sp-bootstrap
 ```
 This uses Azure CLI to create or rotate the SP secret and writes the values into `.env`.
 
-3) Deploy the serving endpoint:
+3) Deploy the serving endpoint (only after the notebook registers a model version):
 ```powershell
 uv run python scripts\deploy.py --serving-only
 ```
