@@ -1,0 +1,6 @@
+resource_group_name = "rg-dbgenai-dev"
+catalog_name        = "adb_genai_super_locust"
+schema_name         = "adb_genai_super_locust.rag"
+table_name          = "adb_genai_super_locust.rag.diabetes_faq_table"
+# index_table_name  = "adb_genai_super_locust.rag.diabetes_faq_index"
+# principal_name    = "00000000-0000-0000-0000-000000000000"

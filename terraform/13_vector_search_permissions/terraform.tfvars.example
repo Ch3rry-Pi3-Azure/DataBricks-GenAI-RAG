@@ -1,0 +1,4 @@
+resource_group_name = "rg-dbgenai-dev"
+endpoint_name       = "vector_search_endpoint"
+permission_level    = "CAN_MANAGE"
+skip_if_missing     = false

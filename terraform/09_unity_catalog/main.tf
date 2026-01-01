@@ -38,14 +38,14 @@ data "terraform_remote_state" "databricks" {
 data "terraform_remote_state" "storage" {
   backend = "local"
   config = {
-    path = "../09_storage/terraform.tfstate"
+    path = "../07_storage/terraform.tfstate"
   }
 }
 
 data "terraform_remote_state" "access_connector" {
   backend = "local"
   config = {
-    path = "../10_access_connector/terraform.tfstate"
+    path = "../08_access_connector/terraform.tfstate"
   }
 }
 

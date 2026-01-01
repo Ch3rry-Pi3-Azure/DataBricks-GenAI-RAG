@@ -9,3 +9,7 @@ output "cluster_name" {
 output "secret_scope_name" {
   value = databricks_secret_scope.openai.name
 }
+
+output "databricks_sp_secret_scope_name" {
+  value = databricks_secret_scope.databricks_sp.name
+}

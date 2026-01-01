@@ -1,5 +1,5 @@
 resource_group_name   = "rg-dbgenai-dev"
-endpoint_name         = "rag-model-endpoint"
+endpoint_name         = "rag-model-endpoint-otter"
 served_model_name     = "rag-model"
 model_name            = "main.rag.rag_model"
 model_version         = "1"
@@ -7,4 +7,7 @@ workload_size         = "Small"
 scale_to_zero_enabled = true
 traffic_percentage    = 100
 secret_scope_name     = "aoai-scope"
-databricks_pat_secret_name = "databricks-pat"
+databricks_sp_secret_scope_name = "dbx-sp-scope"
+databricks_client_id_secret_name = "dbx-client-id"
+databricks_client_secret_name = "dbx-client-secret"
+databricks_tenant_id_secret_name = "dbx-tenant-id"

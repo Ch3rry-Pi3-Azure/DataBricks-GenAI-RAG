@@ -30,7 +30,7 @@ data "azurerm_databricks_workspace" "main" {
 }
 
 provider "databricks" {
-  host                        = data.azurerm_databricks_workspace.main.workspace_url
+  host                        = "https://${data.azurerm_databricks_workspace.main.workspace_url}"
   azure_workspace_resource_id = data.azurerm_databricks_workspace.main.id
   auth_type                   = "azure-cli"
 }
@@ -46,16 +46,21 @@ resource "databricks_model_serving" "main" {
       workload_size        = var.workload_size
       scale_to_zero_enabled = var.scale_to_zero_enabled
       environment_vars = {
-        DATABRICKS_HOST = data.azurerm_databricks_workspace.main.workspace_url
-        DATABRICKS_TOKEN = "{{secrets/${var.secret_scope_name}/${var.databricks_pat_secret_name}}}"
-        AZURE_OPENAI_ENDPOINT = "{{secrets/${var.secret_scope_name}/openai-api-base}}"
-        AZURE_OPENAI_API_KEY = "{{secrets/${var.secret_scope_name}/openai-api-key}}"
+        DATABRICKS_HOST          = "https://${data.azurerm_databricks_workspace.main.workspace_url}"
+        DATABRICKS_AUTH_TYPE     = "oauth"
+        DATABRICKS_AZURE_RESOURCE_ID = data.azurerm_databricks_workspace.main.id
+        DATABRICKS_TENANT_ID     = "{{secrets/${var.databricks_sp_secret_scope_name}/${var.databricks_tenant_id_secret_name}}}"
+        DATABRICKS_CLIENT_ID     = "{{secrets/${var.databricks_sp_secret_scope_name}/${var.databricks_client_id_secret_name}}}"
+        DATABRICKS_CLIENT_SECRET = "{{secrets/${var.databricks_sp_secret_scope_name}/${var.databricks_client_secret_name}}}"
+        MLFLOW_ENABLE_DB_SDK     = "true"
+        AZURE_OPENAI_ENDPOINT    = "{{secrets/${var.secret_scope_name}/openai-api-base}}"
+        AZURE_OPENAI_API_KEY     = "{{secrets/${var.secret_scope_name}/openai-api-key}}"
         AZURE_OPENAI_API_VERSION = "{{secrets/${var.secret_scope_name}/openai-api-version}}"
         AZURE_OPENAI_DEPLOYMENT_NAME = "{{secrets/${var.secret_scope_name}/openai-deployment-name}}"
-        OPENAI_API_BASE = "{{secrets/${var.secret_scope_name}/openai-api-base}}"
-        OPENAI_API_KEY = "{{secrets/${var.secret_scope_name}/openai-api-key}}"
-        OPENAI_API_VERSION = "{{secrets/${var.secret_scope_name}/openai-api-version}}"
-        OPENAI_DEPLOYMENT_NAME = "{{secrets/${var.secret_scope_name}/openai-deployment-name}}"
+        OPENAI_API_BASE          = "{{secrets/${var.secret_scope_name}/openai-api-base}}"
+        OPENAI_API_KEY           = "{{secrets/${var.secret_scope_name}/openai-api-key}}"
+        OPENAI_API_VERSION       = "{{secrets/${var.secret_scope_name}/openai-api-version}}"
+        OPENAI_DEPLOYMENT_NAME   = "{{secrets/${var.secret_scope_name}/openai-deployment-name}}"
       }
     }
 

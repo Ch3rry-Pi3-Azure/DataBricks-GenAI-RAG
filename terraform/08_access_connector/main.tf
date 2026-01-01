@@ -20,7 +20,7 @@ provider "azurerm" {
 data "terraform_remote_state" "storage" {
   backend = "local"
   config = {
-    path = "../09_storage/terraform.tfstate"
+    path = "../07_storage/terraform.tfstate"
   }
 }
 

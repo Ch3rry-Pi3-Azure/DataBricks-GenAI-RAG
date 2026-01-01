@@ -1,0 +1,10 @@
+resource_group_name       = "rg-dbgenai-dev"
+secret_scope_name         = "aoai-scope"
+databricks_sp_secret_scope_name = "dbx-sp-scope"
+use_ml_runtime            = true
+mlflow_enable_db_sdk      = "true"
+databricks_pat_secret_name = "databricks-pat"
+openai_pypi_package       = "openai==1.56.0"
+vectorsearch_pypi_package = "databricks-vectorsearch"
+azure_identity_pypi_package = "azure-identity"
+databricks_sdk_pypi_package = "databricks-sdk"

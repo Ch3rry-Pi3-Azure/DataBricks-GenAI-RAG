@@ -33,10 +33,28 @@ variable "secret_scope_name" {
   default     = "aoai-scope"
 }
 
-variable "databricks_pat_secret_name" {
+variable "databricks_sp_secret_scope_name" {
   type        = string
-  description = "Databricks secret name for the PAT used by serving"
-  default     = "databricks-pat"
+  description = "Databricks secret scope name for service principal credentials"
+  default     = "dbx-sp-scope"
+}
+
+variable "databricks_client_id_secret_name" {
+  type        = string
+  description = "Secret name for Databricks service principal client ID"
+  default     = "dbx-client-id"
+}
+
+variable "databricks_client_secret_name" {
+  type        = string
+  description = "Secret name for Databricks service principal client secret"
+  default     = "dbx-client-secret"
+}
+
+variable "databricks_tenant_id_secret_name" {
+  type        = string
+  description = "Secret name for Azure tenant ID"
+  default     = "dbx-tenant-id"
 }
 
 variable "workload_size" {

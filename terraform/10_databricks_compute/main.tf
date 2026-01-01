@@ -66,6 +66,16 @@ resource "databricks_secret_scope" "openai" {
   }
 }
 
+resource "databricks_secret_scope" "databricks_sp" {
+  name         = var.databricks_sp_secret_scope_name
+  backend_type = "AZURE_KEYVAULT"
+
+  keyvault_metadata {
+    resource_id = data.terraform_remote_state.key_vault.outputs.key_vault_id
+    dns_name    = data.terraform_remote_state.key_vault.outputs.key_vault_uri
+  }
+}
+
 resource "databricks_cluster" "analytics" {
   cluster_name            = var.cluster_name
   spark_version           = local.resolved_spark_version
@@ -83,6 +93,13 @@ resource "databricks_cluster" "analytics" {
   spark_conf = {
     "spark.databricks.cluster.profile" = "singleNode"
     "spark.master"                     = "local[*]"
+    "spark.databricks.driverEnv.MLFLOW_ENABLE_DB_SDK" = var.mlflow_enable_db_sdk
+    "spark.executorEnv.MLFLOW_ENABLE_DB_SDK"          = var.mlflow_enable_db_sdk
+  }
+
+  spark_env_vars = {
+    "MLFLOW_ENABLE_DB_SDK" = var.mlflow_enable_db_sdk
+    "DATABRICKS_TOKEN"     = "{{secrets/${var.secret_scope_name}/${var.databricks_pat_secret_name}}}"
   }
 
   library {
@@ -97,5 +114,17 @@ resource "databricks_cluster" "analytics" {
     }
   }
 
-  depends_on = [databricks_secret_scope.openai]
+  library {
+    pypi {
+      package = var.azure_identity_pypi_package
+    }
+  }
+
+  library {
+    pypi {
+      package = var.databricks_sdk_pypi_package
+    }
+  }
+
+  depends_on = [databricks_secret_scope.openai, databricks_secret_scope.databricks_sp]
 }

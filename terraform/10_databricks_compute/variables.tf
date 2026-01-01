@@ -9,6 +9,12 @@ variable "secret_scope_name" {
   default     = "aoai-scope"
 }
 
+variable "databricks_sp_secret_scope_name" {
+  type        = string
+  description = "Name of the Databricks secret scope for service principal credentials"
+  default     = "dbx-sp-scope"
+}
+
 variable "cluster_name" {
   type        = string
   description = "Name of the Databricks cluster"
@@ -69,6 +75,18 @@ variable "use_ml_runtime" {
   default     = true
 }
 
+variable "mlflow_enable_db_sdk" {
+  type        = string
+  description = "Enable MLflow DB SDK auth (set as cluster env var)"
+  default     = "true"
+}
+
+variable "databricks_pat_secret_name" {
+  type        = string
+  description = "Secret name for Databricks PAT in the secret scope"
+  default     = "databricks-pat"
+}
+
 variable "openai_pypi_package" {
   type        = string
   description = "PyPI package spec for the OpenAI SDK"
@@ -79,4 +97,16 @@ variable "vectorsearch_pypi_package" {
   type        = string
   description = "PyPI package spec for Databricks Vector Search"
   default     = "databricks-vectorsearch"
+}
+
+variable "azure_identity_pypi_package" {
+  type        = string
+  description = "PyPI package spec for Azure Identity"
+  default     = "azure-identity"
+}
+
+variable "databricks_sdk_pypi_package" {
+  type        = string
+  description = "PyPI package spec for Databricks SDK"
+  default     = "databricks-sdk"
 }

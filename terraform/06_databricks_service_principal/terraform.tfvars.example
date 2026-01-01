@@ -1,0 +1,8 @@
+resource_group_name       = "rg-dbgenai-dev"
+databricks_account_id     = "00000000-0000-0000-0000-000000000000"
+application_id           = "00000000-0000-0000-0000-000000000000"
+display_name             = "dbx-sp"
+workspace_access         = true
+allow_cluster_create     = false
+allow_instance_pool_create = false
+databricks_sql_access    = false
