@@ -63,24 +63,24 @@ requests.post(url, headers={"Authorization": f"Bearer {os.environ['DATABRICKS_TO
 ```
 
 ## Project Structure
-- data/: Seed CSV data used by the RAG notebook
-- terraform/01_resource_group: Azure resource group
-- terraform/02_azure_openai: Azure OpenAI account
-- terraform/03_openai_deployment: Azure OpenAI model deployment
-- terraform/04_databricks_workspace: Azure Databricks workspace
-- terraform/05_key_vault: Azure Key Vault for secrets
-- terraform/06_databricks_service_principal: Databricks service principal + entitlements
-- terraform/07_storage: Storage account + container (HNS enabled)
-- terraform/08_access_connector: Databricks access connector (managed identity) + storage RBAC
-- terraform/09_unity_catalog: Unity Catalog metastore, assignment, storage credential, external location
-- terraform/10_databricks_compute: Databricks cluster + Key Vault-backed secret scope
-- terraform/11_notebooks: Databricks workspace notebooks
-- terraform/12_serving_endpoint: Databricks model serving endpoint
-- terraform/13_vector_search_permissions: Vector Search endpoint permissions for the SP
-- terraform/14_uc_grants: Unity Catalog grants for the SP
-- scripts/: Deploy/destroy helpers (auto-writes terraform.tfvars and .env)
-- guides/setup.md: Detailed setup guide
-- notebooks/: Databricks notebooks (tracked)
+- `data/`: Seed CSV data used by the RAG notebook
+- `terraform/01_resource_group`: Azure resource group
+- `terraform/02_azure_openai`: Azure OpenAI account
+- `terraform/03_openai_deployment`: Azure OpenAI model deployment
+- `terraform/04_databricks_workspace`: Azure Databricks workspace
+- `terraform/05_key_vault`: Azure Key Vault for secrets
+- `terraform/06_databricks_service_principal`: Databricks service principal + entitlements
+- `terraform/07_storage`: Storage account + container (HNS enabled)
+- `terraform/08_access_connector`: Databricks access connector (managed identity) + storage RBAC
+- `terraform/09_unity_catalog`: Unity Catalog metastore, assignment, storage credential, external location
+- `terraform/10_databricks_compute`: Databricks cluster + Key Vault-backed secret scope
+- `terraform/11_notebooks`: Databricks workspace notebooks
+- `terraform/12_serving_endpoint`: Databricks model serving endpoint
+- `terraform/13_vector_search_permissions`: Vector Search endpoint permissions for the SP
+- `terraform/14_uc_grants`: Unity Catalog grants for the SP
+- `scripts/`: Deploy/destroy helpers (auto-writes terraform.tfvars and .env)
+- `guides/setup.md`: Detailed setup guide
+- `notebooks/`: Databricks notebooks (tracked)
 
 ## Deploy/Destroy Options
 Deploy specific stacks:
